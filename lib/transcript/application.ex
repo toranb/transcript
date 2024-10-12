@@ -9,13 +9,21 @@ defmodule Transcript.Application do
   def start(_type, _args) do
     Nx.default_backend(EXLA.Backend)
 
-    {:ok, whisper} = Bumblebee.load_model({:hf, "openai/whisper-tiny"})
-    {:ok, featurizer} = Bumblebee.load_featurizer({:hf, "openai/whisper-tiny"})
-    {:ok, tokenizer} = Bumblebee.load_tokenizer({:hf, "openai/whisper-tiny"})
-    {:ok, generation_config} = Bumblebee.load_generation_config({:hf, "openai/whisper-tiny"})
+    repository_id = {:hf, "openai/whisper-large-v3-turbo"}
+
+    {:ok, model_info} = Bumblebee.load_model(repository_id, type: :f16)
+    {:ok, featurizer} = Bumblebee.load_featurizer(repository_id)
+    {:ok, tokenizer} = Bumblebee.load_tokenizer(repository_id)
+
+    {:ok, generation_config} =
+      Bumblebee.load_generation_config(repository_id)
 
     serving =
-      Bumblebee.Audio.speech_to_text(whisper, featurizer, tokenizer, generation_config,
+      Bumblebee.Audio.speech_to_text_whisper(
+        model_info,
+        featurizer,
+        tokenizer,
+        generation_config,
         defn_options: [compiler: EXLA]
       )
 

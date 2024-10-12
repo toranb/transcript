@@ -7,7 +7,7 @@ defmodule TranscriptWeb.PageLive do
       socket
       |> assign(audio: nil, recording: false, task: nil)
       |> allow_upload(:audio, accept: :any, progress: &handle_progress/3, auto_upload: true)
-      |> stream_configure(:segments, dom_id: &("ss-#{&1.ss}"))
+      |> stream_configure(:segments, dom_id: &"ss-#{&1.ss}")
       |> stream(:segments, [])
 
     {:ok, socket}
@@ -88,8 +88,8 @@ defmodule TranscriptWeb.PageLive do
         max_concurrency: 4,
         timeout: :infinity
       )
-      |> Enum.reject(fn {:ok, {_ss, %{results: results}}} -> Enum.empty?(results) end)
-      |> Enum.map(fn {:ok, {ss, %{results: [%{text: text}]}}} ->
+      |> Enum.reject(fn {:ok, {_ss, %{chunks: results}}} -> Enum.empty?(results) end)
+      |> Enum.map(fn {:ok, {ss, %{chunks: [%{text: text}]}}} ->
         func.(ss, text)
       end)
     end)

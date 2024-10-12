@@ -49,9 +49,10 @@ defmodule Transcript.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:plug_cowboy, "~> 2.5"},
       {:mp3_duration, "~> 0.1.0"},
-      {:bumblebee, "~> 0.3.0"},
-      {:exla, "~> 0.5.2"},
-      {:nx, "~> 0.5.3"}
+      {:axon, "~> 0.7"},
+      {:bumblebee, "~> 0.6"},
+      {:exla, "~> 0.9"},
+      {:nx, "~> 0.9"}
     ]
   end
 
