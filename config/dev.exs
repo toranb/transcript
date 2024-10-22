@@ -1,5 +1,8 @@
 import Config
 
+config :nx, :default_backend, EXLA.Backend
+config :nx, :default_defn_options, [compiler: EXLA]
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
