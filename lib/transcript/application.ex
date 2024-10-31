@@ -24,6 +24,7 @@ defmodule Transcript.Application do
         featurizer,
         tokenizer,
         generation_config,
+        compile: [batch_size: 1],
         defn_options: [compiler: EXLA]
       )
 
